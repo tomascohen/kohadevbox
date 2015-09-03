@@ -44,6 +44,9 @@
     sudo_user: root
     notify: restart apache
 
+  - name: Set Apache ports
+    template: src=ports.conf.j2 dest=/etc/apache2/ports.conf owner=root mode=0644
+
   - name: Apache modules
     shell: a2enmod rewrite cgi headers proxy_http
     sudo_user: root

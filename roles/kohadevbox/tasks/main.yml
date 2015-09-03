@@ -39,13 +39,14 @@
     apache2_module: state=absent name=mpm_event
     when: ansible_distribution_release == 'trusty'
 
+  - name: Disable Apache default vhost
+    shell: a2dissite 000-default
+    sudo_user: root
+    notify: restart apache
+
   - name: Apache modules
-    apache2_module: name={{ item }} state=present
-    with_items:
-      - rewrite
-      - cgi
-      - headers
-      - proxy_http
+    shell: a2enmod rewrite cgi headers proxy_http
+    sudo_user: root
     notify: restart apache
 
   - name: Set git user configuration
